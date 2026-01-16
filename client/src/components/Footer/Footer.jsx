@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Footer.module.css";
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
-import footerLogo from "../../assets/Evangadi-footer-logo.png"; // <-- added
+import footerLogo from "../../assets/Footer.png"; // <-- added
 
 function Footer() {
   return (

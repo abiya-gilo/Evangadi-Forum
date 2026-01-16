@@ -6,10 +6,12 @@ const {
   getAnswersForQuestion,
 } = require("../controller/answerController");
 
-// POST → submit an answer
-router.post("/add", postAnswer);
+const authMiddleware = require("../middleware/authMiddleware");
 
-// GET → get all answers for a specific question
+// Protected
+router.post("/add", authMiddleware, postAnswer);
+
+// Public
 router.get("/:questionid", getAnswersForQuestion);
 
 module.exports = router;

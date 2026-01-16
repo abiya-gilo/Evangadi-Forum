@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import styles from "./Header.module.css";
+import styles from "./Navbar.module.css";
 import { AuthContext } from "../../context/AuthContext";
-import headerLogo from "../../assets/Evangadi-header-logo.png";
+import headerLogo from "../../assets/Navbar.png";
 
-function Header() {
+function Navbar() {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ function Header() {
 
         {/* Navigation */}
         <nav className={styles.nav}>
-          <Link to="/">Home</Link>
+          <Link to={user ? "/home" : "/"}>Home</Link>
           <Link to="/how-it-works">How it works</Link>
 
           {user ? (
@@ -45,4 +45,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default Navbar;

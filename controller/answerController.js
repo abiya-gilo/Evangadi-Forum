@@ -3,9 +3,10 @@ const db = require("../db/dbConfig");
 // POST /api/answers/add
 const postAnswer = async (req, res) => {
   try {
-    const { userid, questionid, answer_text } = req.body;
+    const userid = req.user.userid;
+    const { questionid, answer_text } = req.body;
 
-    if (!userid || !questionid || !answer_text) {
+    if (!questionid || !answer_text) {
       return res.status(400).json({ msg: "All fields are required" });
     }
 
@@ -28,7 +29,7 @@ const getAnswersForQuestion = async (req, res) => {
 
     const [rows] = await db.execute(
       `SELECT a.answerid, a.answer_text, a.created_at,
-              u.username 
+              u.username
        FROM answers a
        JOIN users u ON a.userid = u.userid
        WHERE a.questionid = ?

@@ -1,83 +1,115 @@
 .wrapper {
-  width: 90%;
-  max-width: 900px;
-  margin: 2rem auto;
+  width: 100%;
+  max-width: 700px;
+  margin: 120px auto 80px; /* space for floating header */
+  padding: 0 20px;
 }
 
-/* Top bar */
-.topBar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* Steps Section */
+.steps {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.steps h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.steps ul {
+  text-align: left;
+  padding-left: 1.5rem;
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* Ask Question Section */
+.askTitle {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.questionLink {
+  display: block;
+  text-align: center;
+  color: #2563eb;
+  text-decoration: none;
   margin-bottom: 1.5rem;
 }
 
-.topBar h2 {
-  font-size: 1.6rem;
-  font-weight: 600;
+.questionLink:hover {
+  text-decoration: underline;
 }
 
-/* Ask Question button */
-.askBtn {
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.form textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.form button {
+  width: 100%;
+  padding: 14px;
   background: #2563eb;
   color: white;
-  padding: 0.7rem 1.4rem;
+  border: none;
   border-radius: 6px;
-  text-decoration: none;
+  cursor: pointer;
   font-weight: 600;
+  font-size: 18px;
 }
 
-.askBtn:hover {
+.form button:hover {
   background: #1e4fc7;
 }
 
-/* Question list */
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+/* Messages */
+.msg {
+  padding: 0.8rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 16px;
 }
 
-/* Each question card */
-.card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.error {
+  background: #fee;
+  color: #c33;
+}
 
-  background: white;
-  padding: 1rem;
-  border-radius: 10px;
+.success {
+  background: #efe;
+  color: #363;
+}
+
+/* Back link */
+.backLink {
+  display: inline-block;
+  margin-top: 1.5rem;
+  color: #2563eb;
   text-decoration: none;
-  color: #333;
-
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
 }
 
-.card:hover {
-  background: #f7f7f7;
-}
-
-/* Left side: avatar + text */
-.left {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.avatar {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-}
-
-/* Username */
-.username {
-  font-size: 0.9rem;
-  color: #777;
-}
-
-/* Arrow icon */
-.arrow {
-  font-size: 1.2rem;
-  color: #555;
+.backLink:hover {
+  text-decoration: underline;
 }

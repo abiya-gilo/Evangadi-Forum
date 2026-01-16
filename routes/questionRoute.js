@@ -7,13 +7,13 @@ const {
   getSingleQuestion,
 } = require("../controller/questionController");
 
-// POST → create a new question
-router.post("/ask", askQuestion);
+const authMiddleware = require("../middleware/authMiddleware");
 
-// GET → get all questions
+// Protected
+router.post("/ask", authMiddleware, askQuestion);
+
+// Public
 router.get("/", getAllQuestions);
-
-// GET → get a single question by questionid (UUID)
 router.get("/:questionid", getSingleQuestion);
 
 module.exports = router;

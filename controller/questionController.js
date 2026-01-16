@@ -4,17 +4,19 @@ const { v4: uuidv4 } = require("uuid");
 // POST /api/questions/ask
 const askQuestion = async (req, res) => {
   try {
-    const { userid, title, description, tag } = req.body;
+    console.log("REQ.USER:", req.user);
+    const userid = req.user.userid;
+    const { title, description } = req.body;
 
-    if (!userid || !title || !description) {
+    if (!title || !description) {
       return res.status(400).json({ msg: "All fields are required" });
     }
 
     const questionid = uuidv4();
 
     await db.execute(
-      "INSERT INTO questions (questionid, userid, title, description, tag) VALUES (?, ?, ?, ?, ?)",
-      [questionid, userid, title, description, tag]
+      "INSERT INTO questions (questionid, userid, title, description ) VALUES (?, ?, ?, ? )",
+      [questionid, userid, title, description]
     );
 
     return res.status(201).json({
@@ -31,9 +33,9 @@ const askQuestion = async (req, res) => {
 const getAllQuestions = async (req, res) => {
   try {
     const [rows] = await db.execute(
-      `SELECT q.questionid, q.title, q.description, q.tag, q.created_at, 
-              u.username 
-       FROM questions q 
+      `SELECT q.questionid, q.title, q.description, q.created_at,
+              u.username, u.email
+       FROM questions q
        JOIN users u ON q.userid = u.userid
        ORDER BY q.created_at DESC`
     );
@@ -51,9 +53,9 @@ const getSingleQuestion = async (req, res) => {
     const { questionid } = req.params;
 
     const [rows] = await db.execute(
-      `SELECT q.questionid, q.title, q.description, q.tag, q.created_at,
-              u.username 
-       FROM questions q 
+      `SELECT q.questionid, q.title, q.description, q.created_at,
+              u.username
+       FROM questions q
        JOIN users u ON q.userid = u.userid
        WHERE q.questionid = ?`,
       [questionid]

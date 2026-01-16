@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
+import axiosBase from "../services/axiosConfig";
 import { AuthContext } from "../context/AuthContext";
-import axios from "../axiosConfig";
 import styles from "./PostQuestion.module.css";
 
 function PostQuestion() {
@@ -23,10 +23,10 @@ function PostQuestion() {
     try {
       setLoading(true);
 
-      const { data } = await axios.post("/questions", {
+      await axiosBase.post("/questions/ask", {
         title,
         description,
-        userId: user?.userid, // adjust based on your backend
+        userid: user?.userid,
       });
 
       setMsg({ type: "success", text: "Question posted successfully!" });
@@ -34,6 +34,7 @@ function PostQuestion() {
       setDescription("");
     } catch (error) {
       const serverMessage =
+        error?.response?.data?.msg ||
         error?.response?.data?.message ||
         error?.response?.data?.error ||
         "Something went wrong.";
@@ -47,9 +48,6 @@ function PostQuestion() {
   return (
     <section className={styles.wrapper}>
       <h1>Ask a Question</h1>
-      <p className={styles.subtitle}>
-        Stuck on something? Ask the community for help.
-      </p>
 
       {msg.text && (
         <div
@@ -62,23 +60,21 @@ function PostQuestion() {
       )}
 
       <form onSubmit={handleSubmit} className={styles.form}>
-        <label>Question Title</label>
+        <label>Title</label>
         <input
           type="text"
-          placeholder="Enter a short title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
 
-        <label>Details</label>
+        <label>Description</label>
         <textarea
-          placeholder="Describe your question in detail..."
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
 
         <button type="submit" disabled={loading}>
-          {loading ? "Posting..." : "Post Question"}
+          {loading ? "Posting…" : "Post Question"}
         </button>
       </form>
     </section>

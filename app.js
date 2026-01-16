@@ -1,40 +1,34 @@
-const express = require("express");
-const cors = require("cors");
 require("dotenv").config();
-
+const express = require("express");
 const app = express();
 
-// middleware
+const cors = require("cors");
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// test route
-app.get("/", (req, res) => {
-  res.send("Backend is running");
+// DB
+const db = require("./db/dbConfig");
+
+// Routes
+const userRoute = require("./routes/userRoute");
+const questionRoute = require("./routes/questionRoute");
+const answerRoute = require("./routes/answerRoute");
+
+// DB health check
+app.get("/db-health", async (req, res) => {
+  try {
+    const [rows] = await db.query("SELECT 1 AS ok");
+    res.json({ status: "ok", rows });
+  } catch (err) {
+    console.error("DB health error:", err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// test body route
-app.post("/test-body", (req, res) => {
-  console.log("🧪 Test endpoint hit");
-  console.log("🧪 req.body:", req.body);
-  console.log("🧪 Content-Type:", req.headers["content-type"]);
-  res.json({
-    message: "Test endpoint",
-    receivedBody: req.body,
-    bodyType: typeof req.body,
-  });
-});
+// Mount routes
+app.use("/api/users", userRoute);
+app.use("/api/questions", questionRoute);
+app.use("/api/answers", answerRoute);
 
-// ROUTES
-const userRoutes = require("./routes/userRoute");
-const questionRouter = require("./routes/questionRoute");
-const answerRouter = require("./routes/answerRoute");
-
-app.use("/api/users", userRoutes);
-app.use("/api/questions", questionRouter);
-app.use("/api/answers", answerRouter);
-
-// start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Server running on port http://localhost:${port}`));
