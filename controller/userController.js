@@ -13,7 +13,7 @@ async function register(req, res) {
   }
 
   try {
-    // check if user exists
+    // Check if username or email already exists
     const [existingUser] = await dbConnection.query(
       "SELECT userid FROM users WHERE username = ? OR email = ?",
       [username, email]
@@ -23,17 +23,14 @@ async function register(req, res) {
       return res.status(400).json({ msg: "User already registered!" });
     }
 
-    // validate password length
     if (password.length < 8) {
       return res
         .status(400)
         .json({ msg: "Password must be at least 8 characters long" });
     }
 
-    // hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // insert user
     await dbConnection.query(
       "INSERT INTO users (username, firstname, lastname, email, password) VALUES (?, ?, ?, ?, ?)",
       [username, firstname, lastname, email, hashedPassword]
@@ -41,10 +38,10 @@ async function register(req, res) {
 
     return res.status(201).json({ msg: "User created successfully" });
   } catch (error) {
-    console.log("REGISTER ERROR:", error); // <-- FULL ERROR LOG
+    console.log("REGISTER ERROR:", error);
     return res
       .status(500)
-      .json({ msg: "Something went wrong, try again later" });
+      .json({ msg: "Server error. Please try again later." });
   }
 }
 
@@ -53,13 +50,16 @@ async function login(req, res) {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ msg: "Please provide email and password" });
+    return res
+      .status(400)
+      .json({ msg: "Please provide email/username and password" });
   }
 
   try {
+    // Allow login with email OR username
     const [user] = await dbConnection.query(
-      "SELECT * FROM users WHERE email = ?",
-      [email]
+      "SELECT * FROM users WHERE email = ? OR username = ?",
+      [email, email]
     );
 
     if (user.length === 0) {
@@ -68,14 +68,11 @@ async function login(req, res) {
 
     const foundUser = user[0];
 
-    // compare password
     const isMatch = await bcrypt.compare(password, foundUser.password);
-
     if (!isMatch) {
       return res.status(401).json({ msg: "Invalid credentials" });
     }
 
-    // generate token
     const token = jwt.sign(
       {
         userid: foundUser.userid,
@@ -95,16 +92,16 @@ async function login(req, res) {
       },
     });
   } catch (error) {
-    console.log("LOGIN ERROR:", error); // <-- FULL ERROR LOG
+    console.log("LOGIN ERROR:", error);
     return res
       .status(500)
-      .json({ msg: "Something went wrong, try again later" });
+      .json({ msg: "Server error. Please try again later." });
   }
 }
 
-// CHECK USER (for protected routes)
+// CHECK USER
 async function checkUser(req, res) {
-  res.send("check user");
+  return res.json({ msg: "User is authenticated", user: req.user });
 }
 
 module.exports = { register, login, checkUser };
