@@ -54,8 +54,8 @@
 .questionCard {
   display: flex;
   align-items: center;
-  padding: 1.1rem 0;
-  border-bottom: 1px solid #ececec;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e6e6e6;
   text-decoration: none;
   color: inherit;
   transition: background 0.15s ease;
@@ -65,18 +65,20 @@
   background: #fafafa;
 }
 
-/* Left user column */
+/* LEFT COLUMN */
 .leftCol {
   width: 90px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   margin-right: 1rem;
 }
 
-.userIcon {
-  width: 62px;
-  height: 62px;
+/* Avatar circle */
+.avatarCircle {
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
   background: #f2f2f2;
   border: 2px solid #ddd;
@@ -86,20 +88,19 @@
   margin-bottom: 0.4rem;
 }
 
-.initial {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #444;
+.avatarIcon {
+  font-size: 2rem;
+  color: #666;
 }
 
-/* Username under avatar */
+/* Username */
 .username {
   font-size: 0.85rem;
   color: #777;
   text-align: center;
 }
 
-/* Question title */
+/* MIDDLE TEXT */
 .texts {
   flex: 1;
 }
@@ -111,12 +112,11 @@
   margin: 0;
 }
 
-/* Right arrow */
-.arrow {
-  margin-left: 1rem;
+/* RIGHT ARROW */
+.arrowIcon {
+  font-size: 2rem;
   color: #999;
-  font-size: 1.4rem;
-  font-weight: bold;
+  margin-left: auto; /* pushes arrow to the far right */
 }
 
 /* Error and loading states */

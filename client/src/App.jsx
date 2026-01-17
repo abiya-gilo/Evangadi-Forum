@@ -46,6 +46,16 @@ function App() {
           }
         />
 
+        {/* FIX: Add AskQuestion route */}
+        <Route
+          path="/AskQuestion"
+          element={
+            <ProtectedRoute>
+              <PostQuestion />
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path="/post-question"
           element={

@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import styles from "./Home.module.css";
 import { RxAvatar } from "react-icons/rx";
+import { IoIosArrowDropright } from "react-icons/io";
 
 function Home() {
   const { user } = useContext(AuthContext);
@@ -16,7 +17,6 @@ function Home() {
       setLoading(true);
       setError("");
       const { data } = await axiosBase.get("/questions");
-      console.log("Questions fetched:", data);
       setQuestions(data);
     } catch (error) {
       console.error("Error fetching questions:", error);
@@ -27,26 +27,31 @@ function Home() {
   }
 
   useEffect(() => {
-    fetchQuestions();
+    async function load() {
+      await fetchQuestions();
+    }
+    load();
   }, []);
 
   return (
     <div className={styles.container}>
+      {/* Welcome */}
       <div className={styles.welcomeContainer}>
         <h2 className={styles.welcome}>Welcome: {user?.username}</h2>
       </div>
 
-      <button>
-        <Link to="/AskQuestion" className={styles.askBtn}>
-          Ask Question
-        </Link>
-      </button>
+      {/* Ask Question */}
+
+      <Link to="/AskQuestion" className={styles.askBtn}>
+        Ask Question
+      </Link>
 
       <h3 className={styles.heading}>Questions</h3>
 
       {error && <p className={styles.error}>{error}</p>}
       {loading && <p className={styles.loading}>Loading questions...</p>}
 
+      {/* Questions List */}
       <div className={styles.list}>
         {questions.map((q) => (
           <Link
@@ -54,36 +59,21 @@ function Home() {
             to={`/questions/${q.questionid}`}
             className={styles.questionCard}
           >
-            <div>
-
-              
-            </div>
-
+            {/* LEFT: Avatar + Username */}
             <div className={styles.leftCol}>
-              <div className={styles.userIcon}>
-                {q.avatarUrl ? (
-                  <img src={q.avatarUrl} alt={q.username} />
-                ) : (
-                  <span className={styles.initial}>
-                    {q.username.charAt(0).toUpperCase()}
-                  </span>
-                )}
+              <div className={styles.avatarCircle}>
+                <RxAvatar className={styles.avatarIcon} />
               </div>
               <div className={styles.username}>{q.username}</div>
             </div>
 
+            {/* MIDDLE: Question Title */}
             <div className={styles.texts}>
               <p className={styles.title}>{q.title}</p>
             </div>
 
-            <div className={styles.arrow} aria-hidden>
-              <svg viewBox="0 0 24 24">
-                <path
-                  fill="currentColor"
-                  d="M9.29 6.71a1 1 0 0 0 0 1.41L13.17 12l-3.88 3.88a1 1 0 1 0 1.41 1.41l4.59-4.59a1 1 0 0 0 0-1.41L10.7 6.7a1 1 0 0 0-1.41 0z"
-                />
-              </svg>
-            </div>
+            {/* RIGHT: Arrow */}
+            <IoIosArrowDropright className={styles.arrowIcon} />
           </Link>
         ))}
       </div>
