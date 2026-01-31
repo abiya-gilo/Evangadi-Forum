@@ -1,20 +1,16 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axiosBase from "../services/axiosConfig";
-import { AuthContext } from "../context/AuthContext";
 import styles from "./QuestionDetail.module.css";
-
 
 function QuestionDetail() {
   const { id } = useParams();
-  console.log(id);
-  const { user } = useContext(AuthContext);
 
   const [question, setQuestion] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [answerText, setAnswerText] = useState("");
 
-  async function fetchData() {
+  const fetchData = async () => {
     try {
       const questionRes = await axiosBase.get(`/questions/${id}`);
       setQuestion(questionRes.data);
@@ -24,9 +20,9 @@ function QuestionDetail() {
     } catch (error) {
       console.log("Error fetching question:", error);
     }
-  }
+  };
 
-  async function submitAnswer(e) {
+  const submitAnswer = async (e) => {
     e.preventDefault();
     if (!answerText.trim()) return;
 
@@ -41,11 +37,11 @@ function QuestionDetail() {
     } catch (error) {
       console.log("Error posting answer:", error);
     }
-  }
+  };
 
   useEffect(() => {
     fetchData();
-  }, [id]);
+  }, [id]); // id is enough
 
   if (!question) return <p>Loading...</p>;
 

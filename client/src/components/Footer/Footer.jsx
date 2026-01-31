@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Footer.module.css";
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
-import footerLogo from "../../assets/Footer.png"; // <-- added
+import footerLogo from "../../assets/Footer.png";
 
 function Footer() {
   return (
@@ -9,7 +9,6 @@ function Footer() {
       <div className={styles.container}>
         {/* Left Section */}
         <div className={styles.left}>
-          {/* Footer Logo */}
           <img
             src={footerLogo}
             alt="Evangadi Footer Logo"
@@ -17,13 +16,30 @@ function Footer() {
           />
 
           <div className={styles.socials}>
-            <a href="#" className={styles.icon}>
+            <a
+              href="https://www.facebook.com/evangaditech"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.icon}
+            >
               <FaFacebookF />
             </a>
-            <a href="#" className={styles.icon}>
+
+            <a
+              href="https://www.instagram.com/evangaditech"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.icon}
+            >
               <FaInstagram />
             </a>
-            <a href="#" className={styles.icon}>
+
+            <a
+              href="https://www.youtube.com/@EvangadiTech"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.icon}
+            >
               <FaYoutube />
             </a>
           </div>
