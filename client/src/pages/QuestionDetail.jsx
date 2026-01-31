@@ -40,8 +40,9 @@ function QuestionDetail() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     fetchData();
-  }, [id]); // id is enough
+  }, [id]);
 
   if (!question) return <p>Loading...</p>;
 
